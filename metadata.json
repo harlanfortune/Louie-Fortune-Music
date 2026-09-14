@@ -1,0 +1,6 @@
+{
+  "name": "Louie Fortune - Artist Profile",
+  "description": "Official artist profile website for Louie Fortune, Urban Gospel music artist bridging South Africa and Ireland, featuring popular tracks, tour dates, biography, and media gallery.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
