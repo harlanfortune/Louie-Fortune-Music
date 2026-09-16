@@ -25,7 +25,48 @@ export const ARTIST_INFO = {
   ]
 };
 
+export const NEW_RELEASE = {
+  id: "track-knoflokskraal",
+  title: "Knoflokskraal (Moenie worry nie)",
+  subtitle: "New Single Release",
+  writtenBy: "Louie Fortune",
+  releaseDate: "20 September 2026",
+  releaseDateLabel: "Release Date: 20 September",
+  album: "Knoflokskraal (Moenie worry nie) - Single",
+  type: "Urban Gospel • Afrikaans Praise Single",
+  duration: "5:03",
+  durationSeconds: 303,
+  coverUrl: "/images/knoflokskraal-artwork.jpg",
+  coverFallbackUrl: "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/3e/55/57/3e555710-5a4a-a82b-b246-180a6043c958/artwork.jpg/1000x1000bb.jpg",
+  audioUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e6/23/43/e6234338-a91a-d3f5-95eb-14adea8fea14/mzaf_18162642492627282682.plus.aac.p.m4a",
+  spotifyUrl: "https://open.spotify.com/album/2LUAs2nnZ68Bw2G5OlUia3",
+  spotifyEmbedUrl: "https://open.spotify.com/embed/album/2LUAs2nnZ68Bw2G5OlUia3?utm_source=generator&theme=0",
+  appleMusicUrl: "https://music.apple.com/us/album/knoflokskraal-moenie-worry-nie/6811858945?i=6811858946",
+  youtubeUrl: "https://www.youtube.com/channel/UC2mf6naFepLPa1rHWAfTUBA",
+  distrokidUrl: "https://open.spotify.com/album/2LUAs2nnZ68Bw2G5OlUia3",
+  description: "An evocative, heartfelt Urban Gospel single written and performed by Louie Fortune. Highlighting the resilience, heritage, and faith of the community with the resonant rallying cry 'Moenie worry nie'. Available across Spotify, Apple Music, YouTube Music, DistroKid, and all major streaming platforms."
+};
+
 export const TRACKS: Track[] = [
+  {
+    id: "track-knoflokskraal",
+    title: "Knoflokskraal (Moenie worry nie)",
+    type: "Brand New Single • All Platforms",
+    album: "Knoflokskraal (Moenie worry nie) - Single",
+    duration: "5:03",
+    durationSeconds: 303,
+    coverUrl: "/images/knoflokskraal-artwork.jpg",
+    audioUrl: "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e6/23/43/e6234338-a91a-d3f5-95eb-14adea8fea14/mzaf_18162642492627282682.plus.aac.p.m4a",
+    releaseYear: "2026",
+    releaseDateLabel: "Release Date: 20 September",
+    featured: true,
+    isNewRelease: true,
+    spotifyUrl: "https://open.spotify.com/album/2LUAs2nnZ68Bw2G5OlUia3",
+    spotifyTrackId: "6811858946",
+    spotifyEmbedUrl: "https://open.spotify.com/embed/album/2LUAs2nnZ68Bw2G5OlUia3?utm_source=generator&theme=0",
+    appleMusicUrl: "https://music.apple.com/us/album/knoflokskraal-moenie-worry-nie/6811858945?i=6811858946",
+    youtubeUrl: "https://www.youtube.com/channel/UC2mf6naFepLPa1rHWAfTUBA"
+  },
   {
     id: "track-1",
     title: "I Am Yours Lord",
@@ -88,7 +129,47 @@ export const TRACKS: Track[] = [
   }
 ];
 
-export const TOUR_DATES: TourDate[] = [];
+export const TOUR_DATES: TourDate[] = [
+  {
+    id: "tour-worship-experience-2026",
+    eventTitle: "Mysteries of True Worship Experience",
+    theme: "The Joyful Sound (Psalms 89:15)",
+    occasion: "Grace Amah Album Launching",
+    date: "Saturday, October 24, 2026",
+    month: "OCT",
+    day: "24",
+    year: "2026",
+    venue: "St. Mark's GAA Club",
+    address: "McGee Park, Cookstown Est Rd, Springfield, Dublin 24",
+    eirCode: "D24 VN59",
+    city: "Dublin",
+    country: "Republic of Ireland",
+    countryCode: "IE",
+    ticketStatus: "available",
+    price: "Free Admission / Ministry Fellowship",
+    doorsOpen: "4:00 PM",
+    startTime: "5:00 PM",
+    organizer: "God's Grace Gospel Music (Republic of Ireland) in conjunction with The Hallelujah Family Mission and Global Evangelism",
+    posterImage: "/images/mysteries-of-true-worship-poster.jpg?t=1789586153670",
+    featuredMinisters: [
+      "Grace Amah (Host / Album Launch Artiste)",
+      "Louie Fortune (Special Guest Minister)",
+      "Apostle Joseph Obamwonyi (aka Jesus boy)",
+      "Psalmistpat Aka Minister Patrick",
+      "Pastor E. J. Ezekiel",
+      "Maame Serwaa",
+      "Pastor Jessica A.A Osei",
+      "Sista Philo",
+      "Medofopa Gifty Cudjoe",
+      "Minister Joel Sackey",
+      "Pastor Fred Emeka MSRPM Dublin Ireland",
+      "Abimbola Wise",
+      "Dr. Taiye Attah Dominion"
+    ],
+    contactPhone: "0830637943",
+    socialHandle: "@Grace Amah"
+  }
+];
 
 export const GALLERY_ITEMS: GalleryItem[] = [
   {

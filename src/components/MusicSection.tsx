@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Play, Pause, Disc, Share2, Download, Radio, Volume2, Sparkles, Music, Youtube, ExternalLink, SlidersHorizontal } from 'lucide-react';
+import { Play, Pause, Disc, Share2, Download, Radio, Volume2, Sparkles, Music, Youtube, ExternalLink, SlidersHorizontal, Check } from 'lucide-react';
 import { Track } from '../types';
-import { ARTIST_INFO } from '../data/artistData';
+import { ARTIST_INFO, NEW_RELEASE } from '../data/artistData';
 
 interface MusicSectionProps {
   tracks: Track[];
@@ -25,7 +25,7 @@ export const MusicSection: React.FC<MusicSectionProps> = ({
   onSeek,
 }) => {
   const [showSpotifyEmbed, setShowSpotifyEmbed] = useState<boolean>(true);
-  const [activeEmbedTrackId, setActiveEmbedTrackId] = useState<string | null>(null);
+  const [activeEmbedTrackId, setActiveEmbedTrackId] = useState<string | null>(tracks[0]?.id || null);
 
   const formatTime = (secs: number) => {
     if (isNaN(secs) || secs < 0) return '0:00';
@@ -63,7 +63,7 @@ export const MusicSection: React.FC<MusicSectionProps> = ({
               <span>Official Singles & Streaming</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-wide uppercase">
-              Popular Tracks
+              Popular Tracks & Releases
             </h2>
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -78,6 +78,111 @@ export const MusicSection: React.FC<MusicSectionProps> = ({
               <SlidersHorizontal className="w-3 h-3 text-[#ff2a5f]" />
               <span>{showSpotifyEmbed ? 'Hide Spotify Player' : 'Show Spotify Player'}</span>
             </button>
+          </div>
+        </div>
+
+        {/* PROMINENT NEW RELEASE SPOTLIGHT CARD */}
+        <div className="mb-10 p-5 sm:p-7 rounded-3xl bg-gradient-to-br from-[#1a1a28] via-[#14141e] to-[#0f0f15] border-2 border-[#ff2a5f]/40 shadow-2xl relative overflow-hidden">
+          {/* Subtle background glow */}
+          <div className="absolute top-0 right-0 w-80 h-80 bg-[#ff2a5f]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-10 -left-10 w-80 h-80 bg-[#1db954]/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            
+            {/* Left: Artwork + Details */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+              <div className="relative group shrink-0">
+                <img
+                  src={NEW_RELEASE.coverUrl}
+                  alt="Knoflokskraal Single Artwork"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (target.src !== NEW_RELEASE.coverFallbackUrl) {
+                      target.src = NEW_RELEASE.coverFallbackUrl;
+                    }
+                  }}
+                  className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl object-cover border-2 border-amber-400/50 shadow-2xl shadow-black/80"
+                />
+                <div className="absolute -top-2 -left-2 bg-[#ff2a5f] text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-lg">
+                  NEW RELEASE
+                </div>
+              </div>
+
+              <div>
+                <div className="flex items-center gap-2 flex-wrap mb-1.5">
+                  <span className="text-xs font-black uppercase tracking-widest text-[#ff2a5f] bg-[#ff2a5f]/15 border border-[#ff2a5f]/30 px-2.5 py-0.5 rounded-full">
+                    Release Date: 20 September
+                  </span>
+                  <span className="text-xs font-bold text-amber-300 bg-amber-400/10 border border-amber-400/20 px-2.5 py-0.5 rounded-full uppercase">
+                    All Streaming Platforms
+                  </span>
+                </div>
+
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight">
+                  {NEW_RELEASE.title}
+                </h3>
+                <p className="text-sm text-[#a0a0b0] mt-1">
+                  Geskryf deur: <strong className="text-white">Louie Fortune</strong> • Khoi-munity
+                </p>
+
+                <p className="text-xs sm:text-sm text-gray-300 mt-2 max-w-xl leading-relaxed">
+                  Available worldwide across all digital streaming platforms on <strong>20 September</strong>. Pre-save and stream the single on Spotify, Apple Music, YouTube Music, and DistroKid.
+                </p>
+
+                {/* Platform Badges */}
+                <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
+                  <span className="px-2.5 py-1 rounded-md bg-[#1db954]/20 text-[#1db954] border border-[#1db954]/30 font-semibold flex items-center gap-1">
+                    <Disc className="w-3 h-3" /> Spotify
+                  </span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/10 text-white border border-white/20 font-semibold flex items-center gap-1">
+                    <Radio className="w-3 h-3" /> Apple Music
+                  </span>
+                  <span className="px-2.5 py-1 rounded-md bg-[#ff0000]/15 text-[#ff6b6b] border border-[#ff0000]/30 font-semibold flex items-center gap-1">
+                    <Youtube className="w-3 h-3" /> YouTube Music
+                  </span>
+                  <span className="px-2.5 py-1 rounded-md bg-blue-500/15 text-blue-300 border border-blue-500/30 font-semibold">
+                    DistroKid
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Quick Action Buttons */}
+            <div className="flex flex-col sm:flex-row md:flex-col gap-2.5 w-full md:w-auto shrink-0 justify-end">
+              <a
+                href={NEW_RELEASE.spotifyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-[#1db954] hover:bg-[#1aa34a] text-black px-6 py-3 rounded-full font-black text-xs sm:text-sm tracking-wide shadow-lg shadow-[#1db954]/30 transition-all duration-200 hover:-translate-y-0.5"
+              >
+                <Disc className="w-4 h-4" />
+                <span>Stream on Spotify</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+
+              <a
+                href={NEW_RELEASE.appleMusicUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white text-white hover:text-black border border-white/20 px-6 py-2.5 rounded-full font-bold text-xs sm:text-sm tracking-wide transition-all duration-200 hover:-translate-y-0.5"
+              >
+                <Radio className="w-4 h-4" />
+                <span>Listen on Apple Music</span>
+              </a>
+
+              <button
+                onClick={() => {
+                  const trackObj = tracks.find(t => t.id === NEW_RELEASE.id) || tracks[0];
+                  onSelectTrack(trackObj);
+                  setActiveEmbedTrackId(trackObj.id);
+                  setShowSpotifyEmbed(true);
+                }}
+                className="inline-flex items-center justify-center gap-2 bg-[#ff2a5f] hover:bg-[#e02350] text-white px-6 py-2.5 rounded-full font-bold text-xs sm:text-sm tracking-wide shadow-md shadow-[#ff2a5f]/25 transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
+              >
+                <Play className="w-3.5 h-3.5 fill-current" />
+                <span>Play Preview Audio</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -99,7 +204,7 @@ export const MusicSection: React.FC<MusicSectionProps> = ({
                     </h3>
                   </div>
                   <p className="text-xs text-[#a0a0b0]">
-                    Louie Fortune • {embedTrack.album}
+                    Louie Fortune • {embedTrack.album} {embedTrack.isNewRelease ? '• Out 20 September' : ''}
                   </p>
                 </div>
               </div>
@@ -167,6 +272,12 @@ export const MusicSection: React.FC<MusicSectionProps> = ({
                     <img
                       src={track.coverUrl}
                       alt={`${track.title} Cover`}
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (track.coverFallbackUrl && target.src !== track.coverFallbackUrl) {
+                          target.src = track.coverFallbackUrl;
+                        }
+                      }}
                       className="track-img w-14 h-14 sm:w-16 sm:h-16 rounded-lg object-cover shadow-md"
                     />
                     <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center opacity-0 group-hover/cover:opacity-100 transition-opacity">
@@ -179,7 +290,12 @@ export const MusicSection: React.FC<MusicSectionProps> = ({
                       <h4 className="text-base sm:text-lg font-bold text-white hover:text-[#ff2a5f] transition-colors">
                         {track.title}
                       </h4>
-                      {track.featured && (
+                      {track.isNewRelease && (
+                        <span className="text-[10px] bg-[#ff2a5f] text-white font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
+                          New Release • 20 Sept
+                        </span>
+                      )}
+                      {track.featured && !track.isNewRelease && (
                         <span className="text-[10px] bg-[#ff2a5f]/20 text-[#ff2a5f] font-bold px-2 py-0.5 rounded-full uppercase">
                           Featured
                         </span>
@@ -298,45 +414,46 @@ export const MusicSection: React.FC<MusicSectionProps> = ({
         {/* Global Streaming Links Callout */}
         <div className="mt-10 p-6 rounded-2xl bg-gradient-to-r from-[#1a1a24] via-[#161622] to-[#1a1a24] border border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-[#ff2a5f]/20 flex items-center justify-center text-[#ff2a5f] shrink-0">
-              <Radio className="w-6 h-6" />
+            <div className="w-10 h-10 rounded-full bg-[#ff2a5f]/20 flex items-center justify-center text-[#ff2a5f] shrink-0">
+              <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="font-bold text-white text-base">
-                Stream Louie Fortune on All Major Platforms
+              <h4 className="text-base font-bold text-white">
+                Available Across All Major Streaming Platforms
               </h4>
-              <p className="text-xs sm:text-sm text-[#a0a0b0] mt-0.5">
-                Available on Spotify, Apple Music, YouTube Music, and Amazon Music.
+              <p className="text-xs text-[#a0a0b0]">
+                Stream Louie Fortune's urban gospel releases on Spotify, Apple Music, YouTube Music, and DistroKid.
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-center gap-2.5">
             <a
-              href={ARTIST_INFO.socials.spotify}
+              href={NEW_RELEASE.spotifyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#1db954] hover:bg-[#1aa34a] text-xs font-bold text-black border border-transparent transition-colors"
+              className="px-4 py-2 rounded-full bg-[#1db954] hover:bg-[#1aa34a] text-black font-bold text-xs flex items-center gap-1.5 transition-colors"
             >
               <Disc className="w-3.5 h-3.5" />
               <span>Spotify</span>
             </a>
             <a
+              href={NEW_RELEASE.appleMusicUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 rounded-full bg-white/10 hover:bg-white text-white hover:text-black font-bold text-xs flex items-center gap-1.5 border border-white/20 transition-colors"
+            >
+              <Radio className="w-3.5 h-3.5" />
+              <span>Apple Music</span>
+            </a>
+            <a
               href={ARTIST_INFO.socials.youtube}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#1a1a24] hover:bg-[#ff2a5f] text-xs font-bold text-white border border-white/10 transition-colors"
+              className="px-4 py-2 rounded-full bg-[#ff0000]/20 hover:bg-[#ff0000] text-white font-bold text-xs flex items-center gap-1.5 border border-[#ff0000]/30 transition-colors"
             >
               <Youtube className="w-3.5 h-3.5" />
               <span>YouTube</span>
-            </a>
-            <a
-              href={ARTIST_INFO.socials.appleMusic}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 rounded-full bg-[#1a1a24] hover:bg-[#ff2a5f] text-xs font-bold text-white border border-white/10 transition-colors"
-            >
-              Apple Music
             </a>
           </div>
         </div>

@@ -9,9 +9,13 @@ export interface Track {
   audioUrl: string;
   releaseYear: string;
   featured?: boolean;
+  isNewRelease?: boolean;
+  releaseDateLabel?: string;
   spotifyUrl?: string;
   spotifyTrackId?: string;
   spotifyEmbedUrl?: string;
+  appleMusicUrl?: string;
+  youtubeUrl?: string;
 }
 
 export interface TourDate {
@@ -27,6 +31,17 @@ export interface TourDate {
   ticketStatus: 'available' | 'few_left' | 'sold_out';
   price: string;
   doorsOpen: string;
+  startTime?: string;
+  eventTitle?: string;
+  theme?: string;
+  occasion?: string;
+  address?: string;
+  eirCode?: string;
+  posterImage?: string;
+  organizer?: string;
+  featuredMinisters?: string[];
+  contactPhone?: string;
+  socialHandle?: string;
 }
 
 export interface GalleryItem {
