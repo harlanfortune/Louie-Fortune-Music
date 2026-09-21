@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Calendar, MapPin, Clock, Ticket, CheckCircle, Download, QrCode } from 'lucide-react';
+import { X, Calendar, MapPin, Clock, Ticket, CheckCircle2, Sparkles } from 'lucide-react';
 import { TourDate } from '../types';
 
 interface TicketModalProps {
@@ -8,8 +8,7 @@ interface TicketModalProps {
 }
 
 export const TicketModal: React.FC<TicketModalProps> = ({ tour, onClose }) => {
-  const [quantity, setQuantity] = useState(2);
-  const [tier, setTier] = useState<'standard' | 'vip'>('standard');
+  const [attendees, setAttendees] = useState(2);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
@@ -20,19 +19,26 @@ export const TicketModal: React.FC<TicketModalProps> = ({ tour, onClose }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !email.trim()) return;
-    const generatedId = `LF-${tour.countryCode}-${Math.floor(100000 + Math.random() * 900000)}`;
+    const generatedId = `LF-IE-${Math.floor(100000 + Math.random() * 900000)}`;
     setTicketId(generatedId);
     setIsSuccess(true);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-lg bg-[#1a1a24] border border-[#ff2a5f]/40 rounded-2xl p-6 sm:p-8 shadow-2xl text-white">
-        
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1C1712]/80 backdrop-blur-sm animate-fade-in"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        className="relative w-full max-w-lg bg-[#FFFFFF] border border-[#E6DDCB] rounded-[14px] p-6 sm:p-8 shadow-2xl text-[#1F1A14]"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 text-[#a0a0b0] hover:text-white rounded-full hover:bg-white/10 transition-colors"
+          className="absolute top-4 right-4 p-2 text-[#5E5548] hover:text-[#1F1A14] rounded-full hover:bg-[#EFE7D8] transition-colors"
           aria-label="Close dialog"
         >
           <X className="w-5 h-5" />
@@ -41,188 +47,117 @@ export const TicketModal: React.FC<TicketModalProps> = ({ tour, onClose }) => {
         {!isSuccess ? (
           <div>
             {/* Header */}
-            <div className="flex items-center gap-2 text-xs font-bold text-[#ff2a5f] uppercase tracking-wider mb-2">
+            <div className="flex items-center gap-2 text-[12px] font-bold text-[#8A5A0B] uppercase tracking-wider mb-2">
               <Ticket className="w-4 h-4" />
-              <span>Official Tour Passes</span>
+              <span>Seat Reservation & RSVP</span>
             </div>
             
-            <h3 className="text-2xl font-black uppercase text-white">
-              {tour.venue}
+            <h3 className="font-serif text-2xl font-bold text-[#1F1A14] leading-tight">
+              {tour.eventTitle || tour.venue}
             </h3>
 
-            <div className="mt-2 flex flex-wrap items-center gap-4 text-xs sm:text-sm text-[#a0a0b0]">
-              <span className="flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5 text-[#ff2a5f]" />
-                {tour.date}, {tour.year}
-              </span>
-              <span className="flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5 text-[#ff2a5f]" />
-                {tour.city}, {tour.country}
-              </span>
-              <span className="flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-[#ff2a5f]" />
-                Doors: {tour.doorsOpen}
-              </span>
+            <div className="mt-3 p-3.5 bg-[#F7F2E9] rounded-[10px] border border-[#E6DDCB] space-y-2 text-[13px] text-[#5E5548]">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-[#8A5A0B] shrink-0" />
+                <span className="font-semibold text-[#1F1A14]">{tour.date}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-[#8A5A0B] shrink-0" />
+                <span>Doors Open: {tour.doorsOpen} · Program Start: {tour.startTime}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-[#8A5A0B] shrink-0" />
+                <span>{tour.venue} · Eircode: {tour.eirCode}</span>
+              </div>
             </div>
 
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-              {/* Ticket Tier */}
               <div>
-                <label className="block text-xs font-bold uppercase text-[#a0a0b0] tracking-wider mb-2">
-                  Select Pass Type
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setTier('standard')}
-                    className={`p-3 rounded-xl border text-left transition-all ${
-                      tier === 'standard'
-                        ? 'border-[#ff2a5f] bg-[#ff2a5f]/10 text-white'
-                        : 'border-white/10 bg-[#0f0f12] text-[#a0a0b0]'
-                    }`}
-                  >
-                    <div className="font-bold text-sm">General Admission</div>
-                    <div className="text-xs text-[#ff2a5f] mt-1 font-semibold">{tour.price}</div>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setTier('vip')}
-                    className={`p-3 rounded-xl border text-left transition-all ${
-                      tier === 'vip'
-                        ? 'border-[#ff2a5f] bg-[#ff2a5f]/10 text-white'
-                        : 'border-white/10 bg-[#0f0f12] text-[#a0a0b0]'
-                    }`}
-                  >
-                    <div className="font-bold text-sm">VIP + Meet & Greet</div>
-                    <div className="text-xs text-[#ff2a5f] mt-1 font-semibold">
-                      {tour.countryCode === 'ZA' ? 'R 550' : '€45.00'}
-                    </div>
-                  </button>
-                </div>
-              </div>
-
-              {/* Quantity */}
-              <div>
-                <label className="block text-xs font-bold uppercase text-[#a0a0b0] tracking-wider mb-1.5">
-                  Number of Passes
-                </label>
-                <div className="flex items-center gap-3">
-                  {[1, 2, 3, 4, 5].map((q) => (
-                    <button
-                      key={q}
-                      type="button"
-                      onClick={() => setQuantity(q)}
-                      className={`w-10 h-10 rounded-lg font-bold text-sm border transition-all ${
-                        quantity === q
-                          ? 'bg-[#ff2a5f] text-white border-[#ff2a5f]'
-                          : 'bg-[#0f0f12] text-[#a0a0b0] border-white/10 hover:border-white/30'
-                      }`}
-                    >
-                      {q}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Attendee Name */}
-              <div>
-                <label className="block text-xs font-bold uppercase text-[#a0a0b0] tracking-wider mb-1.5">
-                  Full Name
+                <label className="block text-[13px] font-semibold text-[#1F1A14] mb-1.5">
+                  Full Name *
                 </label>
                 <input
                   type="text"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g., Sarah O'Connor"
-                  className="w-full bg-[#0f0f12] border border-white/15 rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#ff2a5f]"
+                  placeholder="e.g. John Doe"
+                  className="w-full bg-[#F7F2E9] border border-[#E6DDCB] rounded-[10px] px-4 py-2.5 text-sm text-[#1F1A14] focus-visible:ring-2 focus-visible:ring-[#8A5A0B] focus-visible:outline-none"
                 />
               </div>
 
-              {/* Attendee Email */}
               <div>
-                <label className="block text-xs font-bold uppercase text-[#a0a0b0] tracking-wider mb-1.5">
-                  Email Address for Confirmation
+                <label className="block text-[13px] font-semibold text-[#1F1A14] mb-1.5">
+                  Email Address *
                 </label>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="sarah@example.com"
-                  className="w-full bg-[#0f0f12] border border-white/15 rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#ff2a5f]"
+                  placeholder="e.g. name@example.com"
+                  className="w-full bg-[#F7F2E9] border border-[#E6DDCB] rounded-[10px] px-4 py-2.5 text-sm text-[#1F1A14] focus-visible:ring-2 focus-visible:ring-[#8A5A0B] focus-visible:outline-none"
                 />
               </div>
 
-              {/* Submit */}
-              <button
-                type="submit"
-                className="w-full mt-4 bg-[#ff2a5f] hover:bg-[#e02350] text-white font-bold py-3 rounded-xl transition-all shadow-lg shadow-[#ff2a5f]/30 flex items-center justify-center gap-2 uppercase tracking-wide text-sm"
-              >
-                <span>Confirm Reservation ({quantity} Tickets)</span>
-              </button>
+              <div>
+                <label className="block text-[13px] font-semibold text-[#1F1A14] mb-1.5">
+                  Number of Attendees
+                </label>
+                <select
+                  value={attendees}
+                  onChange={(e) => setAttendees(Number(e.target.value))}
+                  className="w-full bg-[#F7F2E9] border border-[#E6DDCB] rounded-[10px] px-3.5 py-2.5 text-sm text-[#1F1A14] focus-visible:ring-2 focus-visible:ring-[#8A5A0B] focus-visible:outline-none"
+                >
+                  {[1, 2, 3, 4, 5, 6, 8, 10].map((num) => (
+                    <option key={num} value={num}>
+                      {num} {num === 1 ? 'Guest' : 'Guests'}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="pt-2">
+                <button
+                  type="submit"
+                  className="w-full h-12 rounded-[10px] bg-[#C58A1B] hover:bg-[#A9740F] text-[#1F1A14] font-semibold text-sm shadow-sm transition-all focus-visible:ring-2 focus-visible:ring-[#8A5A0B] cursor-pointer"
+                >
+                  Confirm Free Seat Reservation
+                </button>
+              </div>
             </form>
           </div>
         ) : (
-          /* Confirmation State */
-          <div className="text-center py-4 space-y-5 animate-fade-in">
-            <div className="w-16 h-16 bg-[#ff2a5f]/20 rounded-full flex items-center justify-center mx-auto text-[#ff2a5f]">
-              <CheckCircle className="w-10 h-10" />
+          <div className="py-8 text-center space-y-4">
+            <div className="w-14 h-14 bg-[#EFE7D8] rounded-full flex items-center justify-center mx-auto text-[#8A5A0B]">
+              <CheckCircle2 className="w-8 h-8" />
             </div>
 
-            <div>
-              <span className="text-xs font-bold text-[#ff2a5f] uppercase tracking-widest">
-                Reservation Confirmed!
+            <h3 className="font-serif text-2xl font-bold text-[#1F1A14]">
+              Reservation Confirmed!
+            </h3>
+
+            <p className="text-[14px] text-[#5E5548] leading-relaxed max-w-sm mx-auto">
+              We look forward to welcoming you, <strong className="text-[#1F1A14]">{name}</strong>. A confirmation has been registered for <strong className="text-[#1F1A14]">{attendees} guest(s)</strong>.
+            </p>
+
+            <div className="p-4 bg-[#F7F2E9] border border-[#E6DDCB] rounded-[10px] text-center space-y-1">
+              <span className="text-[12px] uppercase tracking-wider text-[#5E5548] font-bold block">
+                Your Confirmation Pass Code
               </span>
-              <h3 className="text-2xl font-black text-white mt-1 uppercase">
-                See You in {tour.city}!
-              </h3>
-              <p className="text-xs sm:text-sm text-[#a0a0b0] mt-2">
-                Your confirmation and digital admission pass have been recorded for <strong className="text-white">{name}</strong> ({email}).
-              </p>
+              <span className="font-serif text-xl font-bold text-[#8A5A0B]">
+                {ticketId}
+              </span>
             </div>
 
-            {/* Ticket Card Stub */}
-            <div className="bg-[#0f0f12] rounded-xl p-4 border border-[#ff2a5f]/30 text-left relative overflow-hidden">
-              <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                <span className="text-xs font-bold text-[#ff2a5f] tracking-wider">
-                  LOUIE FORTUNE LIVE TOUR
-                </span>
-                <span className="text-[10px] font-mono text-[#a0a0b0]">
-                  PASS #{ticketId}
-                </span>
-              </div>
-              <div className="py-2.5 flex items-center justify-between">
-                <div>
-                  <h4 className="font-bold text-white text-base">{tour.venue}</h4>
-                  <p className="text-xs text-[#a0a0b0]">{tour.city}, {tour.country} • {tour.date}</p>
-                  <p className="text-xs text-[#ff2a5f] font-semibold mt-1">
-                    {quantity}x {tier === 'vip' ? 'VIP Meet & Greet' : 'General Admission'}
-                  </p>
-                </div>
-                <QrCode className="w-14 h-14 text-white p-1 bg-white/5 rounded-lg shrink-0" />
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => alert(`Ticket #${ticketId} receipt saved to your downloads!`)}
-                className="flex-1 bg-white/10 hover:bg-white/20 text-white font-bold py-2.5 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors"
-              >
-                <Download className="w-4 h-4" />
-                <span>Save E-Ticket</span>
-              </button>
-              <button
-                onClick={onClose}
-                className="flex-1 bg-[#ff2a5f] hover:bg-[#e02350] text-white font-bold py-2.5 rounded-xl text-xs sm:text-sm transition-colors"
-              >
-                Done
-              </button>
-            </div>
+            <button
+              onClick={onClose}
+              className="mt-4 px-6 py-2.5 rounded-[10px] bg-[#1F1A14] text-white text-sm font-semibold hover:bg-black transition-colors cursor-pointer"
+            >
+              Done
+            </button>
           </div>
         )}
-
       </div>
     </div>
   );

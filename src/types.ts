@@ -6,6 +6,7 @@ export interface Track {
   duration: string;
   durationSeconds: number;
   coverUrl: string;
+  coverFallbackUrl?: string;
   audioUrl: string;
   releaseYear: string;
   featured?: boolean;
@@ -38,6 +39,7 @@ export interface TourDate {
   address?: string;
   eirCode?: string;
   posterImage?: string;
+  posterFallbackUrl?: string;
   organizer?: string;
   featuredMinisters?: string[];
   contactPhone?: string;
